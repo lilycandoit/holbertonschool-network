@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Show listening TCP/UDP and UNIX sockets with PID/Program name.
 
 ss -lntup
 ss -lxp
