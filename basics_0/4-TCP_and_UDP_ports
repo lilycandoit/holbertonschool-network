@@ -1,4 +1,28 @@
 #!/usr/bin/env bash
+# Show listening TCP/UDP and UNIX sockets with PID/Program name.
 
-ss -lntup
-ss -lxp
+# helper function
+have() { command -v "$1" >/dev/null 2>&1; }
+
+if have ss; then
+  echo "Active Internet connections (only servers)"
+  # -l listening, -n numeric, -t tcp, -u udp, -p pid/program
+  ss -lntup
+
+  echo
+  echo "Active UNIX domain sockets (only servers)"
+  # -x unix, -p pid/program
+  ss -lxp
+elif have netstat; then
+  echo "Active Internet connections (only servers)"
+  # -l listening, -n numeric, -p pid/program, -t tcp, -u udp
+  netstat -lntup
+
+  echo
+  echo "Active UNIX domain sockets (only servers)"
+  # -l listening, -x unix, -p pid/program, -n numeric
+  netstat -lxpn
+else
+  echo "Neither 'ss' nor 'netstat' found. Install 'iproute2' (for ss) or 'net-tools' (for netstat)." >&2
+  exit 1
+fi
