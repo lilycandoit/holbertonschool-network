@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# This script prints all active IPv4 addresses on the machine.
+
+# Use hostname -I to list all IP addresses (IPv4 and IPv6) assigned to the host
+# Pipe through tr to split them into separate lines
+# Then use grep to only keep IPv4 addresses (those with dots)
+hostname -I | tr ' ' '\n' | grep '\.'
